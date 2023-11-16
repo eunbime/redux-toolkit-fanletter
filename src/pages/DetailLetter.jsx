@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -71,14 +71,21 @@ const StButton = styled.button`
 const StContent = styled.li``;
 
 const DetailLetter = ({ setLetterList, ...props }) => {
+  const navigate = useNavigate();
+
+  // 전 페이지 값 가져오기
   const location = useLocation();
-  const letterList = location.state.letterList;
   const { id, nickname, avatar, member, createdAt, content } =
     location.state.data;
+  const letterList = location.state.letterList;
 
   const handleDelete = (id) => {
-    //
+    const filteredList = letterList.filter((letter) => letter.id !== id);
+    navigate("/letter", {
+      state: [...filteredList],
+    });
   };
+
   const handleEdit = (id) => {
     //
   };

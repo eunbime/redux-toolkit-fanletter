@@ -2,7 +2,7 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-const img = "/aespa-logo.png";
+const img = "aespa-logo.png";
 
 const StHeader = styled.header`
   width: "100%";
@@ -27,15 +27,15 @@ const StNav = styled.nav`
   height: 3rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 4rem;
-  background: linear-gradient(90deg, var(--aespaMain), var(--aespa5));
+  justify-content: flex-start;
+  padding: 0 2rem;
+  gap: 5rem;
 `;
 
 const StNavLink = styled(Link)`
   color: var(--mainWhite);
-  font-weight: 700;
-  font-size: 1.5rem;
+  font-weight: 600;
+  font-size: 1.2rem;
   transition: 0.3s;
   &:hover {
     color: var(--aespa4);
@@ -55,6 +55,10 @@ const StFooter = styled.footer`
 function Layout({ children }) {
   return (
     <div>
+      <StNav>
+        <StNavLink to="/">Home</StNavLink>
+        <StNavLink to="/letter">To.aespa</StNavLink>
+      </StNav>
       <StHeader>
         <img
           src={img}
@@ -62,10 +66,7 @@ function Layout({ children }) {
           style={{ width: "30%", minWidth: "400px" }}
         />
       </StHeader>
-      <StNav>
-        <StNavLink to="/">Home</StNavLink>
-        <StNavLink to="/letter">To.aespa</StNavLink>
-      </StNav>
+
       <StLayout>
         <Outlet />
       </StLayout>

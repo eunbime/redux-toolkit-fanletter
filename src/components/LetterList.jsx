@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import uuid from "react-uuid";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const StList = styled.div`
@@ -51,16 +50,12 @@ const StContent = styled.li`
 `;
 
 const LetterList = ({ letterList, selectedMember, setLetterList }) => {
-  const handleDelete = (id) => {
-    const filteredList = letterList.filter((letter) => letter.id !== id);
-    setLetterList(filteredList);
-  };
+  const location = useLocation();
+  const filteredLetters = location.state;
 
-  const handelAlert = () => {
-    alert("hi");
-  };
-
-  const handleEdit = (id) => {};
+  useEffect(() => {
+    if (filteredLetters) setLetterList(filteredLetters);
+  }, [filteredLetters]);
 
   return (
     <StList>
