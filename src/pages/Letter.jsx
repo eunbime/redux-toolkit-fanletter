@@ -6,7 +6,6 @@ import styled from "styled-components";
 import uuid from "react-uuid";
 
 const jsonData = require("../letterData.json");
-console.log(jsonData[0].member);
 let today = new Date();
 
 const StContainer = styled.div`

@@ -56,6 +56,10 @@ const LetterList = ({ letterList, selectedMember, setLetterList }) => {
     setLetterList(filteredList);
   };
 
+  const handelAlert = () => {
+    alert("hi");
+  };
+
   const handleEdit = (id) => {};
 
   return (
@@ -67,7 +71,14 @@ const LetterList = ({ letterList, selectedMember, setLetterList }) => {
         .map((item) => {
           const { id, nickname, content, createdAt, member, avatar } = item;
           return (
-            <Link to={`/letter/${id}`} key={id} state={{ data: item }}>
+            <Link
+              to={`/letter/${id}`}
+              key={id}
+              state={{
+                data: item,
+                letterList: letterList,
+              }}
+            >
               <StLetter>
                 <ProFileContainer>
                   <li>

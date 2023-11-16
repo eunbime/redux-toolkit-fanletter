@@ -68,21 +68,17 @@ const StButton = styled.button`
   }
 `;
 
-const DetailLetter = () => {
-  const params = useParams();
+const StContent = styled.li``;
 
+const DetailLetter = ({ setLetterList, ...props }) => {
   const location = useLocation();
-  const letterData = location.state;
-  console.log(letterData);
+  const letterList = location.state.letterList;
   const { id, nickname, avatar, member, createdAt, content } =
     location.state.data;
-
-  const StContent = styled.li``;
 
   const handleDelete = (id) => {
     //
   };
-
   const handleEdit = (id) => {
     //
   };
