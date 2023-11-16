@@ -1,74 +1,123 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { data } from "../shared/data";
-import uuid from "react-uuid";
+
+const StForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 650px;
+  margin: 0 auto;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: var(--aespa3);
+`;
+
+const StSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 0 auto;
+`;
+
+const StLabel = styled.label`
+  padding: 0.5rem 0;
+`;
+
+const StInput = styled.input.attrs({
+  required: true,
+  maxLength: 20,
+  placeholder: "20자 이내로 작성해주세요",
+})`
+  width: 25rem;
+  font-size: small;
+  padding: 0.25rem;
+`;
+
+const StTextArea = styled.textarea.attrs({
+  required: true,
+  maxLength: 150,
+  placeholder: "150자 이내로 작성해주세요.",
+})`
+  height: 10rem;
+  padding: 0.25rem;
+  /* 줄바꿈 적용 처리 */
+`;
+
+const ButtonSection = styled.section`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 5rem;
+  margin-top: 1rem;
+`;
+
+const StButton = styled.button`
+  border: none;
+  font-size: medium;
+  padding: 0.25rem 1.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--aespa3);
+    border: solid 1px var(--mainWhite);
+  }
+`;
 
 const LetterForm = ({
-  handleNickName,
-  handleContexts,
+  handleNickname,
+  handleContent,
   handleMember,
   handleSubmit,
-  nickName,
-  contexts,
+  nickname,
+  content,
+  setModalOpen,
 }) => {
-  // const [letterList, setLetterList] = useState([]);
-  // const [nickName, setNickName] = useState("");
-  // const [contexts, setContexts] = useState("");
-  // const [member, setMember] = useState("");
+  const [selected, setSelected] = useState("카리나");
 
-  // const handleNickName = (e) => {
-  //   setNickName(e.target.value);
-  // };
-
-  // const handleContexts = (e) => {
-  //   setContexts(e.target.value);
-  // };
-
-  // const handleMember = (e) => {
-  //   setMember(e.target.value);
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (nickName === "" || contexts === "" || member === "")
-  //     return alert("닉네임과 내용을 입력해주세요");
-
-  //   const newLetter = {
-  //     id: uuid(),
-  //     nickName,
-  //     contexts,
-  //     member,
-  //   };
-  //   const newLetterList = [...letterList, newLetter];
-  //   setLetterList(newLetterList);
-  //   setNickName("");
-  //   setContexts("");
-  //   setMember("");
-  // };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
-    <>
-      <form>
-        <div>
-          <span>닉네임</span>
-          <input type="text" value={nickName} onChange={handleNickName} />
+    <div style={{ width: "100%" }}>
+      <StForm onSubmit={handleSubmit}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "1rem",
+          }}
+        >
+          <StSection>
+            <StLabel>닉네임</StLabel>
+            <StInput type="text" value={nickname} onChange={handleNickname} />
+          </StSection>
+          <StSection>
+            <StLabel>내용</StLabel>
+            <StTextArea type="text" value={content} onChange={handleContent} />
+          </StSection>
+          <StSection>
+            <StLabel>아티스트를 선택해주세요.</StLabel>
+            <select id="member" onChange={handleMember}>
+              {data.map((item) => (
+                <option key={item.id} value={item.member}>
+                  {item.member}
+                </option>
+              ))}
+            </select>
+          </StSection>
         </div>
-        <div>
-          <span>내용</span>
-          <input type="text" value={contexts} onChange={handleContexts} />
-        </div>
-        <select id="member" onChange={handleMember}>
-          {data.map((item) => {
-            return (
-              <option key={item.id} value={item.member}>
-                {item.member}
-              </option>
-            );
-          })}
-        </select>
-        <button onClick={handleSubmit}>등록</button>
-      </form>
-    </>
+        <ButtonSection>
+          <StButton type="submit">등록</StButton>
+          <StButton onClick={closeModal}>닫기</StButton>
+        </ButtonSection>
+      </StForm>
+    </div>
   );
 };
 
