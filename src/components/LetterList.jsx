@@ -49,7 +49,12 @@ const StContent = styled.li`
   height: 20px;
 `;
 
-const LetterList = ({ letterList, selectedMember, setLetterList }) => {
+const LetterList = ({
+  letterList,
+  selectedMember,
+  setLetterList,
+  setContent,
+}) => {
   const location = useLocation();
   const filteredLetters = location.state;
 
@@ -64,7 +69,15 @@ const LetterList = ({ letterList, selectedMember, setLetterList }) => {
           return item.member === selectedMember || selectedMember === "";
         })
         .map((item) => {
-          const { id, nickname, content, createdAt, member, avatar } = item;
+          const {
+            id,
+            nickname,
+            content,
+            createdAt,
+            member,
+            avatar,
+            memberPhoto,
+          } = item;
           return (
             <Link
               to={`/letter/${id}`}
@@ -89,7 +102,13 @@ const LetterList = ({ letterList, selectedMember, setLetterList }) => {
                       alignItems: "flex-end",
                     }}
                   >
-                    <MemberProfile></MemberProfile>
+                    <MemberProfile>
+                      <img
+                        src={memberPhoto}
+                        alt="member-profile"
+                        width="50px"
+                      />
+                    </MemberProfile>
                     <span>To.{member}</span>
                   </li>
                 </ProFileContainer>

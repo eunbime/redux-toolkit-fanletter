@@ -17,9 +17,11 @@ const StContainer = styled.div`
 `;
 
 const StButtonSection = styled.section`
+  max-width: 650px;
+  flex-wrap: wrap;
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 2rem;
   margin-bottom: 2rem;
 `;
 
@@ -30,16 +32,18 @@ const StFilterMember = styled.div`
   justify-content: space-between;
   align-items: center;
   border: none;
-  gap: 0.7rem;
+  gap: 1rem;
 `;
 
 const StBox = styled.div`
-  width: 6rem;
-  height: 6rem;
+  width: 7rem;
+  height: 7rem;
   margin-bottom: 0.25rem;
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   border-radius: 100px;
-  border: ${(props) => (props.selected ? "2.5px solid transparent" : "none")};
+  /* border: ${(props) =>
+    props.selected ? "2.5px solid transparent" : "none"}; */
+  border: 2.5px solid transparent;
   background-image: linear-gradient(#fff, #fff),
     linear-gradient(
       to right,
@@ -51,6 +55,9 @@ const StBox = styled.div`
   background-origin: border-box;
   background-clip: content-box, border-box;
   transition: 0.3s;
+  overflow: hidden;
+  box-shadow: ${(props) =>
+    props.selected ? "0px 0px 10px 5px #eee" : "0px 0px 15px 1px #666"};
   &:hover {
     transform: scale(1.1);
   }
@@ -79,6 +86,7 @@ function Letter() {
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [member, setMember] = useState("카리나");
+  const [memberPhoto, setMemberPhoto] = useState("");
   const [selectedMember, setSelectedMember] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -91,7 +99,9 @@ function Letter() {
   };
 
   const handleMember = (e) => {
+    const photo = data.filter((item) => item.member === e.target.value);
     setMember(e.target.value);
+    setMemberPhoto(photo[0].memberPhoto);
   };
 
   const handleSubmit = (e) => {
@@ -108,9 +118,10 @@ function Letter() {
       nickname,
       content,
       member,
+      memberPhoto,
       createdAt: today.toLocaleString(),
       avatar:
-        "https://i.namu.wiki/i/Zaxq-ravM_BA5eKMIZEFhP5Xx_qBeMZ9LNox_ojRpnKAXnNbySKOtzKweH58A0QUekP7XhHrGZKyrjHmolMH63HQFAi2gohNGY7_XPLXzRp6EFtLZjBaeghzjXdR7GWqfOxFxIIu2xDkbAqRKQhCNw.webp",
+        "https://i.namu.wiki/i/M0j6sykCciGaZJ8yW0CMumUigNAFS8Z-dJA9h_GKYSmqqYSQyqJq8D8xSg3qAz2htlsPQfyHZZMmAbPV-Ml9UA.webp",
     };
     const newLetterList = [newLetter, ...letterList];
     setLetterList(newLetterList);
@@ -136,9 +147,14 @@ function Letter() {
             selected={selectedMember === item.member}
           >
             <StBox selected={selectedMember === item.member}>
-              <img src="" alt="" />
+              <img
+                src={item.memberPhoto}
+                alt=""
+                width="120rem"
+                style={{ objectFit: "cover" }}
+              />
             </StBox>
-            {item.member}
+            <span>{item.member}</span>
           </StFilterMember>
         ))}
       </StButtonSection>
@@ -163,6 +179,7 @@ function Letter() {
         letterList={letterList}
         selectedMember={selectedMember}
         setLetterList={setLetterList}
+        setContent={setContent}
       />
     </StContainer>
   );

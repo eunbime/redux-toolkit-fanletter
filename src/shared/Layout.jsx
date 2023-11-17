@@ -2,7 +2,10 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-const img = "aespa-logo.png";
+const HEADER_IMG = "aespa-logo.png";
+
+const LOGO_IMG =
+  "https://kpopping.com/documents/54/0/400/first_Aespa_official_symbol_logo-removebg-preview.webp";
 
 const StHeader = styled.header`
   width: "100%";
@@ -24,12 +27,13 @@ const StLayout = styled.div`
 
 const StNav = styled.nav`
   width: 100%;
-  height: 3rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 0 2rem;
-  gap: 5rem;
+  gap: 3rem;
+  background-color: black;
 `;
 
 const StNavLink = styled(Link)`
@@ -56,17 +60,16 @@ function Layout({ children }) {
   return (
     <div>
       <StNav>
-        <StNavLink to="/">Home</StNavLink>
+        <StNavLink to="/">
+          <img src={LOGO_IMG} alt="" width="80px" />
+        </StNavLink>
         <StNavLink to="/letter">To.aespa</StNavLink>
       </StNav>
       <StHeader>
-        <img
-          src={img}
-          alt="title-logo"
-          style={{ width: "30%", minWidth: "400px" }}
-        />
+        <Link to="/">
+          <img src={HEADER_IMG} alt="title-logo" width="400px" />
+        </Link>
       </StHeader>
-
       <StLayout>
         <Outlet />
       </StLayout>

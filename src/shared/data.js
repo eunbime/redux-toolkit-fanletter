@@ -2,21 +2,21 @@ export const data = [
   {
     id: 1,
     member: "카리나",
-    memberPhoto: "",
+    memberPhoto: "karina.jpeg",
   },
   {
     id: 2,
     member: "윈터",
-    memberPhoto: "",
+    memberPhoto: "winter.jpeg",
   },
   {
     id: 3,
     member: "지젤",
-    memberPhoto: "",
+    memberPhoto: "gizelle.jpeg",
   },
   {
     id: 4,
     member: "닝닝",
-    memberPhoto: "",
+    memberPhoto: "ningning.jpeg",
   },
 ];

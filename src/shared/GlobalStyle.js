@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
 
     body {
         background: linear-gradient(90deg, var(--aespaMain), var(--aespa5));
+        background-repeat: no-repeat;
         color: var(--mainBlack);
     }
 

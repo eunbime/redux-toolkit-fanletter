@@ -70,7 +70,7 @@ const StButton = styled.button`
 
 const StContent = styled.li``;
 
-const DetailLetter = ({ setLetterList, ...props }) => {
+const DetailLetter = () => {
   const navigate = useNavigate();
 
   // 전 페이지 값 가져오기
@@ -79,6 +79,9 @@ const DetailLetter = ({ setLetterList, ...props }) => {
     location.state.data;
   const letterList = location.state.letterList;
 
+  const [edit, setEdit] = useState(false);
+  const [editContent, setEditContent] = useState(content);
+
   const handleDelete = (id) => {
     const filteredList = letterList.filter((letter) => letter.id !== id);
     navigate("/letter", {
@@ -86,8 +89,18 @@ const DetailLetter = ({ setLetterList, ...props }) => {
     });
   };
 
-  const handleEdit = (id) => {
-    //
+  const handleEdit = () => {
+    setEdit(true);
+  };
+
+  const handleSubmit = (id) => {
+    const filteredList = letterList.map((item) => {
+      return item.id === id ? { ...item, content: editContent } : item;
+    });
+    setEdit(false);
+    navigate("/letter", {
+      state: [...filteredList],
+    });
   };
 
   return (
@@ -115,9 +128,25 @@ const DetailLetter = ({ setLetterList, ...props }) => {
           </li>
         </ProFileContainer>
         <li>{createdAt}</li>
-        <StContent>{content}</StContent>
+        {edit ? (
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="10"
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+          ></textarea>
+        ) : (
+          <StContent>{content}</StContent>
+        )}
         <ButtonSection>
-          <StButton onClick={() => handleEdit(id)}>수정</StButton>
+          {edit ? (
+            <StButton onClick={() => handleSubmit(id)}>확인</StButton>
+          ) : (
+            <StButton onClick={handleEdit}>수정</StButton>
+          )}
+
           <StButton onClick={() => handleDelete(id)}>삭제</StButton>
         </ButtonSection>
       </LetterBox>
