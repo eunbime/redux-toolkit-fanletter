@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { data } from "shared/data";
+import ModalProfile from "components/ModalProfile";
 
 const PROFILE_PHOTO = "aespa-profile.jpeg";
 
 const Container = styled.div`
   width: 100%;
-  padding: 0 1rem;
   min-width: 550px;
+  padding: 0 1rem;
 `;
 
 const ProfileImg = styled.img`
@@ -21,7 +22,6 @@ const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: solid 1px blue;
 `;
 
 const Title = styled.h1`
@@ -76,43 +76,95 @@ const MemberProfile = styled.div`
 `;
 
 function Home() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [memberId, setMemberId] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  const handleModal = useCallback((id) => {
+    const selectedMember = data.find((item) => item.id === id);
+    setMemberId(selectedMember.id);
+    setIsModalOpen(true);
+  }, []);
+
+  if (isLoading) return <div>로딩 중...</div>;
+
   return (
-    <Container>
-      <ProfileContainer>
-        <Title>aespa</Title>
-        <ProfileImg src={PROFILE_PHOTO} alt="" />
-        <TeamInfo>
-          <TeamSection>
-            <InfoTitle htmlFor="">팀명</InfoTitle>
-            <InfoUl>
-              <InfoLi>에스파</InfoLi>
-            </InfoUl>
-          </TeamSection>
-          <TeamSection>
-            <InfoTitle htmlFor="">멤버</InfoTitle>
-            <InfoUl>
-              {data.map((item) => (
-                <InfoLi key={item.id}>
-                  <MemberProfile>
-                    <img src={item.memberPhoto} alt="" width="100px" />
-                    <span>{item.member}</span>
-                  </MemberProfile>
+    <>
+      <Container>
+        <ProfileContainer>
+          <Title>aespa</Title>
+          <ProfileImg src={PROFILE_PHOTO} alt="" />
+          <TeamInfo>
+            <TeamSection>
+              <InfoTitle htmlFor="">팀명</InfoTitle>
+              <InfoUl>
+                <InfoLi>에스파</InfoLi>
+              </InfoUl>
+            </TeamSection>
+            <TeamSection>
+              <InfoTitle htmlFor="">멤버</InfoTitle>
+              <InfoUl>
+                {data.map((item) => (
+                  <InfoLi key={item.id} onClick={() => handleModal(item.id)}>
+                    <MemberProfile>
+                      <img src={item.memberPhoto} alt="" width="100px" />
+                      <span>{item.member}</span>
+                    </MemberProfile>
+                  </InfoLi>
+                ))}
+              </InfoUl>
+            </TeamSection>
+            <TeamSection>
+              <InfoTitle>공식 계정</InfoTitle>
+              <InfoUl>
+                <InfoLi>
+                  <p>
+                    <Link to="https://www.youtube.com/@aespa">
+                      <img
+                        src="youtube-icon.png"
+                        alt="youtube-logo"
+                        width="15px"
+                      />{" "}
+                    </Link>
+                    Youtube
+                  </p>
+                  <p>
+                    <Link to="https://www.youtube.com/@aespa">
+                      <img
+                        src="twitter-icon.png"
+                        alt="twitter-logo"
+                        width="15px"
+                      />{" "}
+                    </Link>
+                    Twitter
+                  </p>
+                  <p>
+                    <Link to="https://www.youtube.com/@aespa">
+                      <img
+                        src="instagram-icon.png"
+                        alt="instagram-logo"
+                        width="15px"
+                      />{" "}
+                    </Link>
+                    Instagram
+                  </p>
                 </InfoLi>
-              ))}
-            </InfoUl>
-          </TeamSection>
-          <TeamSection>
-            <InfoTitle>공식 계정</InfoTitle>
-            <InfoUl>
-              <InfoLi>
-                <Link to="https://www.youtube.com/@aespa">유튜브</Link>{" "}
-                <Link to="">트위터</Link> <Link to="">홈페이지</Link>
-              </InfoLi>
-            </InfoUl>
-          </TeamSection>
-        </TeamInfo>
-      </ProfileContainer>
-    </Container>
+              </InfoUl>
+            </TeamSection>
+          </TeamInfo>
+        </ProfileContainer>
+      </Container>
+
+      <ModalProfile
+        isModalOpen={isModalOpen}
+        memberId={memberId}
+        onClose={() => setIsModalOpen(false)}
+      ></ModalProfile>
+    </>
   );
 }
 
