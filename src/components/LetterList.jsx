@@ -78,6 +78,7 @@ const LetterList = ({
             avatar,
             memberPhoto,
           } = item;
+
           return (
             <Link
               to={`/letter/${id}`}
@@ -122,4 +123,4 @@ const LetterList = ({
   );
 };
 
-export default LetterList;
+export default React.memo(LetterList);

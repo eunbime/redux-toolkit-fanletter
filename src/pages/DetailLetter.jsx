@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -9,9 +9,10 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 `;
 
-const BackButton = styled.button`
+const GoBackButton = styled.button`
   position: absolute;
   top: 0;
   left: 0;
@@ -20,6 +21,7 @@ const BackButton = styled.button`
 `;
 
 const LetterBox = styled.ul`
+  width: 100%;
   max-width: 650px;
   padding: 1rem;
   display: flex;
@@ -37,7 +39,7 @@ const ProFileContainer = styled.section`
   border-bottom: solid 1px #d4d4d4;
 `;
 
-const MemberProfile = styled.div`
+const Profile = styled.div`
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -68,52 +70,68 @@ const StButton = styled.button`
   }
 `;
 
-const StContent = styled.li``;
+const StContent = styled.li`
+  white-space: pre-line;
+  line-height: 1.5;
+`;
 
 const DetailLetter = () => {
   const navigate = useNavigate();
 
   // 전 페이지 값 가져오기
   const location = useLocation();
-  const { id, nickname, avatar, member, createdAt, content } =
+  const { id, nickname, avatar, member, memberPhoto, createdAt, content } =
     location.state.data;
   const letterList = location.state.letterList;
 
   const [edit, setEdit] = useState(false);
-  const [editContent, setEditContent] = useState(content);
+  const [editContent, setEditContent] = useState("");
+  const [editedContent, setEditedContent] = useState(content);
+  const [editedList, setEditedList] = useState(letterList);
 
   const handleDelete = (id) => {
-    const filteredList = letterList.filter((letter) => letter.id !== id);
-    navigate("/letter", {
-      state: [...filteredList],
-    });
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      const filteredList = letterList.filter((letter) => letter.id !== id);
+      setEditedContent(filteredList);
+      navigate("/letter", {
+        state: [...filteredList],
+      });
+    }
   };
 
   const handleEdit = () => {
+    setEditContent(editedContent);
     setEdit(true);
   };
 
   const handleSubmit = (id) => {
-    const filteredList = letterList.map((item) => {
-      return item.id === id ? { ...item, content: editContent } : item;
-    });
-    setEdit(false);
+    if (window.confirm("정말 수정하시겠습니까?")) {
+      const newEditedList = letterList.map((item) => {
+        return item.id === id ? { ...item, content: editContent } : item;
+      });
+      setEdit(false);
+      setEditedContent(editContent);
+      setEditedList(newEditedList);
+    } else {
+      setEdit(false);
+    }
+  };
+
+  const goBackHandler = () => {
     navigate("/letter", {
-      state: [...filteredList],
+      state: [...editedList],
     });
   };
 
   return (
     <Container>
-      <Link to={"/letter"}>
-        <BackButton>뒤로가기</BackButton>
-      </Link>
+      <GoBackButton onClick={goBackHandler}>뒤로가기</GoBackButton>
       <LetterBox>
         <ProFileContainer>
           <li>
-            <MemberProfile>
+            <Profile>
               <img src={avatar} alt="" width="50px" />
-            </MemberProfile>
+            </Profile>
             <span>From.{nickname}</span>
           </li>
           <li
@@ -123,7 +141,9 @@ const DetailLetter = () => {
               alignItems: "flex-end",
             }}
           >
-            <MemberProfile></MemberProfile>
+            <Profile>
+              <img src={memberPhoto} alt="member" />
+            </Profile>
             <span>To.{member}</span>
           </li>
         </ProFileContainer>
@@ -135,10 +155,11 @@ const DetailLetter = () => {
             cols="30"
             rows="10"
             value={editContent}
+            maxLength="150"
             onChange={(e) => setEditContent(e.target.value)}
-          ></textarea>
+          />
         ) : (
-          <StContent>{content}</StContent>
+          <StContent>{editedContent}</StContent>
         )}
         <ButtonSection>
           {edit ? (

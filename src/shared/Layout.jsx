@@ -33,7 +33,7 @@ const StNav = styled.nav`
   justify-content: flex-start;
   padding: 0 2rem;
   gap: 3rem;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const StNavLink = styled(Link)`

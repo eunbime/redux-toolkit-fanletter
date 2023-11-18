@@ -12,7 +12,7 @@ const StForm = styled.form`
   gap: 0.5rem;
   padding: 1.5rem;
   border-radius: 1rem;
-  background-color: var(--aespa3);
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const StSection = styled.section`
@@ -24,6 +24,7 @@ const StSection = styled.section`
 
 const StLabel = styled.label`
   padding: 0.5rem 0;
+  color: var(--mainWhite);
 `;
 
 const StInput = styled.input.attrs({
@@ -33,16 +34,18 @@ const StInput = styled.input.attrs({
 })`
   width: 25rem;
   font-size: small;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  line-height: 1.25rem;
 `;
 
 const StTextArea = styled.textarea.attrs({
   required: true,
   maxLength: 150,
   placeholder: "150자 이내로 작성해주세요.",
+  cols: 30,
+  rows: 15,
 })`
-  height: 10rem;
-  padding: 0.25rem;
+  padding: 0.5rem;
   /* 줄바꿈 적용 처리 */
 `;
 
@@ -59,10 +62,12 @@ const StButton = styled.button`
   font-size: medium;
   padding: 0.25rem 1.5rem;
   border-radius: 1rem;
+  background-color: var(--aespa4);
+  color: var(--mainWhite);
+  border: solid 1px var(--mainWhite);
   cursor: pointer;
   &:hover {
     background-color: var(--aespa3);
-    border: solid 1px var(--mainWhite);
   }
 `;
 
@@ -75,8 +80,6 @@ const LetterForm = ({
   content,
   setModalOpen,
 }) => {
-  const [selected, setSelected] = useState("카리나");
-
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -121,4 +124,4 @@ const LetterForm = ({
   );
 };
 
-export default LetterForm;
+export default React.memo(LetterForm);

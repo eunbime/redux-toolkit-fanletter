@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { data } from "../shared/data";
 import LetterForm from "../components/LetterForm";
 import LetterList from "../components/LetterList";
@@ -90,28 +90,28 @@ function Letter() {
   const [selectedMember, setSelectedMember] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleNickname = (e) => {
+  const handleNickname = useCallback((e) => {
     setNickname(e.target.value);
-  };
+  }, []);
 
   const handleContent = (e) => {
     setContent(e.target.value);
   };
 
   const handleMember = (e) => {
-    const photo = data.filter((item) => item.member === e.target.value);
+    const photo = data.find((item) => item.member === e.target.value);
     setMember(e.target.value);
-    setMemberPhoto(photo[0].memberPhoto);
+    setMemberPhoto(photo.memberPhoto);
+  };
+
+  const selectedMemberHandler = (selectedMember) => {
+    setSelectedMember(selectedMember);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (nickname === "" || content === "")
       return alert("닉네임과 내용을 입력해주세요");
-
-    const contentsReplaceNewline = () => {
-      return content.replaceAll("<br>", "\r\n");
-    };
 
     const newLetter = {
       id: uuid(),
@@ -127,9 +127,6 @@ function Letter() {
     setLetterList(newLetterList);
     setNickname("");
     setContent("");
-  };
-
-  const selectedMemberHandler = (member) => {
     setSelectedMember(member);
   };
 
