@@ -15,6 +15,7 @@ const ModalContainer = styled.div`
 
 const ModalBox = styled.div`
   position: fixed;
+  width: 450px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -54,7 +55,7 @@ const StInfo = styled.p`
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: small;
+  font-size: medium;
 `;
 
 const ModalProfile = ({ isModalOpen, onClose, memberId }) => {
@@ -73,7 +74,7 @@ const ModalProfile = ({ isModalOpen, onClose, memberId }) => {
           })
           .map((item) => (
             <ProfileBox key={item.id}>
-              <img src={item.memberPhoto} alt={item.member} width="100px" />
+              <img src={item.memberPhoto} alt={item.member} width="150px" />
               <ProfileInfo>
                 <StInfo>{`이름: ${item.member} (본명: ${item.realname})`}</StInfo>
                 <StInfo>출생 {item.birth}</StInfo>

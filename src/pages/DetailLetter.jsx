@@ -12,12 +12,18 @@ const Container = styled.div`
   padding: 1rem;
 `;
 
-const GoBackButton = styled.button`
+const GoBackButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   position: absolute;
   top: 0;
   left: 0;
   margin: 1rem;
   padding: 1rem;
+  font-weight: bold;
+  cursor: pointer;
 `;
 
 const LetterBox = styled.ul`
@@ -125,7 +131,10 @@ const DetailLetter = () => {
 
   return (
     <Container>
-      <GoBackButton onClick={goBackHandler}>뒤로가기</GoBackButton>
+      <GoBackButton onClick={goBackHandler}>
+        <span className="material-icons">arrow_back</span>
+        <span>돌아가기</span>
+      </GoBackButton>
       <LetterBox>
         <ProFileContainer>
           <li>

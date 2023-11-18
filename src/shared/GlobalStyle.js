@@ -25,6 +25,10 @@ const GlobalStyle = createGlobalStyle`
         background-repeat: no-repeat;
         color: var(--mainBlack);
     }
+    
+    .material-icons {
+        font-size: 30px;
+    }
 
 `;
 

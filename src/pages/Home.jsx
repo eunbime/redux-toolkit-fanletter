@@ -111,7 +111,12 @@ function Home() {
                 {data.map((item) => (
                   <InfoLi key={item.id} onClick={() => handleModal(item.id)}>
                     <MemberProfile>
-                      <img src={item.memberPhoto} alt="" width="100px" />
+                      <img
+                        src={item.memberPhoto}
+                        alt=""
+                        width="100px"
+                        style={{ cursor: "pointer" }}
+                      />
                       <span>{item.member}</span>
                     </MemberProfile>
                   </InfoLi>
