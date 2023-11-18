@@ -24,12 +24,6 @@ const ProfileContainer = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h1`
-  font-size: xx-large;
-  font-weight: bold;
-  padding: 1rem;
-`;
-
 const TeamInfo = styled.section`
   width: 100%;
   display: flex;
@@ -42,10 +36,6 @@ const TeamInfo = styled.section`
   border-radius: 1rem;
   font-size: large;
   font-weight: 500;
-`;
-
-const TeamSection = styled.section`
-  //
 `;
 
 const InfoTitle = styled.label`
@@ -96,16 +86,15 @@ function Home() {
     <>
       <Container>
         <ProfileContainer>
-          <Title>aespa</Title>
-          <ProfileImg src={PROFILE_PHOTO} alt="" />
           <TeamInfo>
-            <TeamSection>
+            <ProfileImg src={PROFILE_PHOTO} alt="" />
+            <section>
               <InfoTitle htmlFor="">팀명</InfoTitle>
               <InfoUl>
-                <InfoLi>에스파</InfoLi>
+                <InfoLi>aespa (에스파)</InfoLi>
               </InfoUl>
-            </TeamSection>
-            <TeamSection>
+            </section>
+            <section>
               <InfoTitle htmlFor="">멤버</InfoTitle>
               <InfoUl>
                 {data.map((item) => (
@@ -122,8 +111,8 @@ function Home() {
                   </InfoLi>
                 ))}
               </InfoUl>
-            </TeamSection>
-            <TeamSection>
+            </section>
+            <section>
               <InfoTitle>공식 계정</InfoTitle>
               <InfoUl>
                 <InfoLi>
@@ -159,7 +148,7 @@ function Home() {
                   </p>
                 </InfoLi>
               </InfoUl>
-            </TeamSection>
+            </section>
           </TeamInfo>
         </ProfileContainer>
       </Container>
