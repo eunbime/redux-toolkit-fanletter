@@ -60,9 +60,8 @@ const MemberProfile = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  background-color: #fff;
   padding: 0.25rem;
-  border-radius: 0.25rem;
+  font-size: 1rem;
 `;
 
 function Home() {

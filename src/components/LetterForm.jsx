@@ -78,12 +78,8 @@ const LetterForm = ({
   handleSubmit,
   nickname,
   content,
-  setModalOpen,
+  closeModal,
 }) => {
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
   return (
     <div style={{ width: "100%" }}>
       <StForm onSubmit={handleSubmit}>

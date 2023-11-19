@@ -27,13 +27,14 @@ const StLayout = styled.div`
 
 const StNav = styled.nav`
   width: 100%;
-  height: 4rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 0 2rem;
   gap: 3rem;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
+  /* background: linear-gradient(to right, var(--mainBlack), var(--aespa4)); */
 `;
 
 const StNavLink = styled(Link)`
@@ -61,7 +62,7 @@ function Layout({ children }) {
     <div>
       <StNav>
         <StNavLink to="/">
-          <img src={LOGO_IMG} alt="" width="80px" />
+          <img src={LOGO_IMG} alt="" width="60px" />
         </StNavLink>
         <StNavLink to="/letter">To.aespa</StNavLink>
       </StNav>

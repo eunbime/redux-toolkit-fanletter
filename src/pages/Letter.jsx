@@ -128,10 +128,17 @@ function Letter() {
     setNickname("");
     setContent("");
     setSelectedMember(member);
+    setModalOpen(false);
   };
 
   const handleModal = () => {
     setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setNickname("");
+    setContent("");
+    setModalOpen(false);
   };
 
   return (
@@ -165,6 +172,7 @@ function Letter() {
           nickname={nickname}
           content={content}
           setModalOpen={setModalOpen}
+          closeModal={closeModal}
         />
       ) : (
         <InputBox onClick={handleModal}>
