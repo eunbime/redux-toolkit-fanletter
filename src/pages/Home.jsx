@@ -6,64 +6,6 @@ import ModalProfile from "components/ModalProfile";
 
 const PROFILE_PHOTO = "aespa-profile.jpeg";
 
-const Container = styled.div`
-  width: 100%;
-  min-width: 550px;
-  padding: 0 1rem;
-`;
-
-const ProfileImg = styled.img`
-  max-width: 100%;
-`;
-
-const ProfileContainer = styled.div`
-  max-width: 650px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TeamInfo = styled.section`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2rem;
-  background-color: rgba(255, 255, 255, 0.3);
-  padding: 2rem 1.5rem;
-  margin: 2rem 0;
-  border-radius: 1rem;
-  font-size: large;
-  font-weight: 500;
-`;
-
-const InfoTitle = styled.label`
-  font-weight: 700;
-  font-size: 1.3rem;
-`;
-
-const InfoUl = styled.ul`
-  display: flex;
-  gap: 1rem;
-`;
-
-const InfoLi = styled.li`
-  padding-top: 0.8rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const MemberProfile = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem;
-  font-size: 1rem;
-`;
-
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [memberId, setMemberId] = useState(0);
@@ -160,5 +102,63 @@ function Home() {
     </>
   );
 }
+
+const Container = styled.div`
+  width: 100%;
+  min-width: 550px;
+  padding: 0 1rem;
+`;
+
+const ProfileImg = styled.img`
+  max-width: 100%;
+`;
+
+const ProfileContainer = styled.div`
+  max-width: 650px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TeamInfo = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 2rem 1.5rem;
+  margin: 2rem 0;
+  border-radius: 1rem;
+  font-size: large;
+  font-weight: 500;
+`;
+
+const InfoTitle = styled.label`
+  font-weight: 700;
+  font-size: 1.3rem;
+`;
+
+const InfoUl = styled.ul`
+  display: flex;
+  gap: 1rem;
+`;
+
+const InfoLi = styled.li`
+  padding-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const MemberProfile = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  font-size: 1rem;
+`;
 
 export default Home;

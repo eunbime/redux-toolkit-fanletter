@@ -1,6 +1,100 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { data } from "../shared/data";
+import uuid from "react-uuid";
+
+let today = new Date();
+
+const LetterForm = ({
+  letterList,
+  setLetterList,
+  setModalOpen,
+  setSelectedMember,
+}) => {
+  const [nickname, setNickname] = useState("");
+  const [content, setContent] = useState("");
+  const [member, setMember] = useState("카리나");
+  const [memberPhoto, setMemberPhoto] = useState("karina.jpeg");
+
+  const handleNickname = useCallback((e) => {
+    setNickname(e.target.value);
+  }, []);
+
+  const handleContent = (e) => {
+    setContent(e.target.value);
+  };
+
+  const handleMember = (e) => {
+    const photo = data.find((item) => item.member === e.target.value);
+    setMember(e.target.value);
+    setMemberPhoto(photo.memberPhoto);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!nickname || !content) return alert("닉네임과 내용을 입력해주세요");
+
+    const newLetter = {
+      id: uuid(),
+      nickname,
+      content,
+      member,
+      memberPhoto,
+      createdAt: new Date(),
+      avatar: null,
+    };
+    setLetterList((prev) => [newLetter, ...prev]);
+    setNickname("");
+    setContent("");
+    setSelectedMember(member);
+    setModalOpen(false);
+  };
+
+  const closeModal = () => {
+    setNickname("");
+    setContent("");
+    setModalOpen(false);
+  };
+
+  return (
+    <div style={{ width: "100%" }}>
+      <StForm onSubmit={handleSubmit}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "1rem",
+          }}
+        >
+          <StSection>
+            <label>닉네임</label>
+            <StInput type="text" value={nickname} onChange={handleNickname} />
+          </StSection>
+          <StSection>
+            <label>내용</label>
+            <StTextArea type="text" value={content} onChange={handleContent} />
+          </StSection>
+          <StSection>
+            <label>아티스트를 선택해주세요.</label>
+            <select id="member" onChange={handleMember}>
+              {data.map((item) => (
+                <option key={item.id} value={item.member}>
+                  {item.member}
+                </option>
+              ))}
+            </select>
+          </StSection>
+        </div>
+        <ButtonSection>
+          <StButton type="submit">등록</StButton>
+          <StButton onClick={closeModal}>닫기</StButton>
+        </ButtonSection>
+      </StForm>
+    </div>
+  );
+};
 
 const StForm = styled.form`
   display: flex;
@@ -20,11 +114,10 @@ const StSection = styled.section`
   flex-direction: column;
   width: 400px;
   margin: 0 auto;
-`;
-
-const StLabel = styled.label`
-  padding: 0.5rem 0;
-  color: var(--mainWhite);
+  & label {
+    padding: 0.5rem 0;
+    color: var(--mainWhite);
+  }
 `;
 
 const StInput = styled.input.attrs({
@@ -40,13 +133,13 @@ const StInput = styled.input.attrs({
 
 const StTextArea = styled.textarea.attrs({
   required: true,
-  maxLength: 150,
-  placeholder: "150자 이내로 작성해주세요.",
+  maxLength: 200,
+  placeholder: "200자 이내로 작성해주세요.",
   cols: 30,
   rows: 15,
 })`
+  resize: none;
   padding: 0.5rem;
-  /* 줄바꿈 적용 처리 */
 `;
 
 const ButtonSection = styled.section`
@@ -70,54 +163,5 @@ const StButton = styled.button`
     background-color: var(--aespa3);
   }
 `;
-
-const LetterForm = ({
-  handleNickname,
-  handleContent,
-  handleMember,
-  handleSubmit,
-  nickname,
-  content,
-  closeModal,
-}) => {
-  return (
-    <div style={{ width: "100%" }}>
-      <StForm onSubmit={handleSubmit}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "1rem",
-          }}
-        >
-          <StSection>
-            <StLabel>닉네임</StLabel>
-            <StInput type="text" value={nickname} onChange={handleNickname} />
-          </StSection>
-          <StSection>
-            <StLabel>내용</StLabel>
-            <StTextArea type="text" value={content} onChange={handleContent} />
-          </StSection>
-          <StSection>
-            <StLabel>아티스트를 선택해주세요.</StLabel>
-            <select id="member" onChange={handleMember}>
-              {data.map((item) => (
-                <option key={item.id} value={item.member}>
-                  {item.member}
-                </option>
-              ))}
-            </select>
-          </StSection>
-        </div>
-        <ButtonSection>
-          <StButton type="submit">등록</StButton>
-          <StButton onClick={closeModal}>닫기</StButton>
-        </ButtonSection>
-      </StForm>
-    </div>
-  );
-};
 
 export default React.memo(LetterForm);

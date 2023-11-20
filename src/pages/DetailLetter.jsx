@@ -1,6 +1,117 @@
+import Avatar from "components/common/Avatar";
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getFormattedDate } from "util/data";
+
+const DetailLetter = ({ letterList }) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { nickname, avatar, member, createdAt, memberPhoto, content } =
+    letterList.find((letter) => letter.id === id);
+
+  const [edit, setEdit] = useState(false);
+  const [editContent, setEditContent] = useState("");
+  const [editedContent, setEditedContent] = useState(content);
+  const [editedList, setEditedList] = useState(letterList);
+
+  const handleDelete = (id) => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      const filteredList = letterList.filter((letter) => letter.id !== id);
+      setEditedContent(filteredList);
+      navigate("/letter", {
+        state: [...filteredList],
+      });
+    }
+  };
+
+  const handleEdit = () => {
+    setEditContent(editedContent);
+    setEdit(true);
+  };
+
+  const handleSubmit = (id) => {
+    if (!editContent) return alert("수정사항이 없습니다.");
+
+    if (window.confirm("정말 수정하시겠습니까?")) {
+      const newEditedList = letterList.map((item) => {
+        return item.id === id ? { ...item, content: editContent } : item;
+      });
+      setEditedList(newEditedList);
+      setEditedContent(editContent);
+      setEdit(false);
+      setEditContent("");
+    } else {
+      setEdit(false);
+    }
+  };
+
+  const goBackHandler = () => {
+    navigate("/letter", {
+      state: [...editedList],
+    });
+  };
+
+  return (
+    <Container>
+      <GoBackButton onClick={goBackHandler}>
+        <span className="material-icons">arrow_back</span>
+        <span>돌아가기</span>
+      </GoBackButton>
+      <LetterBox>
+        <ProFileContainer>
+          <li>
+            <Profile>
+              <Avatar src={avatar} size="large" />
+              <img src={avatar} alt="" width="50px" />
+            </Profile>
+            <span>From.{nickname}</span>
+          </li>
+          <li
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <Profile>
+              <img src={memberPhoto} alt="member" />
+            </Profile>
+            <span>To.{member}</span>
+          </li>
+        </ProFileContainer>
+        <li>{getFormattedDate(createdAt)}</li>
+        {edit ? (
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="10"
+            autoFocus
+            defaultValue={content}
+            maxLength="150"
+            onChange={(e) => setEditContent(e.target.value)}
+          />
+        ) : (
+          <StContent>{editedContent}</StContent>
+        )}
+        <ButtonSection>
+          {edit ? (
+            <>
+              <StButton onClick={() => setEdit(false)}>취소</StButton>
+              <StButton onClick={() => handleSubmit(id)}>완료</StButton>
+            </>
+          ) : (
+            <>
+              <StButton onClick={handleEdit}>수정</StButton>
+              <StButton onClick={() => handleDelete(id)}>삭제</StButton>
+            </>
+          )}
+        </ButtonSection>
+      </LetterBox>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   width: 100%;
@@ -80,108 +191,5 @@ const StContent = styled.li`
   white-space: pre-line;
   line-height: 1.5;
 `;
-
-const DetailLetter = () => {
-  const navigate = useNavigate();
-
-  // 전 페이지 값 가져오기
-  const location = useLocation();
-  const { id, nickname, avatar, member, memberPhoto, createdAt, content } =
-    location.state.data;
-  const letterList = location.state.letterList;
-
-  const [edit, setEdit] = useState(false);
-  const [editContent, setEditContent] = useState("");
-  const [editedContent, setEditedContent] = useState(content);
-  const [editedList, setEditedList] = useState(letterList);
-
-  const handleDelete = (id) => {
-    if (window.confirm("정말 삭제하시겠습니까?")) {
-      const filteredList = letterList.filter((letter) => letter.id !== id);
-      setEditedContent(filteredList);
-      navigate("/letter", {
-        state: [...filteredList],
-      });
-    }
-  };
-
-  const handleEdit = () => {
-    setEditContent(editedContent);
-    setEdit(true);
-  };
-
-  const handleSubmit = (id) => {
-    if (window.confirm("정말 수정하시겠습니까?")) {
-      const newEditedList = letterList.map((item) => {
-        return item.id === id ? { ...item, content: editContent } : item;
-      });
-      setEdit(false);
-      setEditedContent(editContent);
-      setEditedList(newEditedList);
-    } else {
-      setEdit(false);
-    }
-  };
-
-  const goBackHandler = () => {
-    navigate("/letter", {
-      state: [...editedList],
-    });
-  };
-
-  return (
-    <Container>
-      <GoBackButton onClick={goBackHandler}>
-        <span className="material-icons">arrow_back</span>
-        <span>돌아가기</span>
-      </GoBackButton>
-      <LetterBox>
-        <ProFileContainer>
-          <li>
-            <Profile>
-              <img src={avatar} alt="" width="50px" />
-            </Profile>
-            <span>From.{nickname}</span>
-          </li>
-          <li
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-            }}
-          >
-            <Profile>
-              <img src={memberPhoto} alt="member" />
-            </Profile>
-            <span>To.{member}</span>
-          </li>
-        </ProFileContainer>
-        <li>{createdAt}</li>
-        {edit ? (
-          <textarea
-            name=""
-            id=""
-            cols="30"
-            rows="10"
-            value={editContent}
-            maxLength="150"
-            onChange={(e) => setEditContent(e.target.value)}
-          />
-        ) : (
-          <StContent>{editedContent}</StContent>
-        )}
-        <ButtonSection>
-          {edit ? (
-            <StButton onClick={() => handleSubmit(id)}>확인</StButton>
-          ) : (
-            <StButton onClick={handleEdit}>수정</StButton>
-          )}
-
-          <StButton onClick={() => handleDelete(id)}>삭제</StButton>
-        </ButtonSection>
-      </LetterBox>
-    </Container>
-  );
-};
 
 export default DetailLetter;
