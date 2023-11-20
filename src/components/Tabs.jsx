@@ -1,12 +1,18 @@
-import { MemberContext } from "context/MemberContext";
-import React, { useContext } from "react";
+import React from "react";
 import { data } from "shared/data";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { setMember } from "redux/modules/member";
 
 const Tabs = () => {
-  const { selectedMember, setSelectedMember } = useContext(MemberContext);
+  const selectedMember = useSelector((state) => state.member);
+  // const { selectedMember, setSelectedMember } = useContext(MemberContext);
+
+  const dispatch = useDispatch();
+
   const selectMemberHandler = (selectedMember) => {
-    setSelectedMember(selectedMember);
+    // setSelectedMember(selectedMember);
+    dispatch(setMember(selectedMember));
   };
   return (
     <StButtonSection>
