@@ -1,8 +1,10 @@
-import React from "react";
+import { MemberContext } from "context/MemberContext";
+import React, { useContext } from "react";
 import { data } from "shared/data";
 import styled from "styled-components";
 
-const Tabs = ({ selectedMember, setSelectedMember }) => {
+const Tabs = () => {
+  const { selectedMember, setSelectedMember } = useContext(MemberContext);
   const selectMemberHandler = (selectedMember) => {
     setSelectedMember(selectedMember);
   };

@@ -1,10 +1,32 @@
-import React, { useCallback, useState } from "react";
-import { data } from "../shared/data";
+import React, { useContext, useState } from "react";
 import LetterForm from "../components/LetterForm";
 import LetterList from "../components/LetterList";
-import styled, { css } from "styled-components";
-import uuid from "react-uuid";
+import styled from "styled-components";
 import Tabs from "components/Tabs";
+
+function Letter() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModal = () => {
+    setModalOpen(true);
+  };
+
+  return (
+    <StContainer>
+      <Tabs />
+
+      {modalOpen ? (
+        <LetterForm setModalOpen={setModalOpen} />
+      ) : (
+        <InputBox onClick={handleModal}>
+          아티스트를 위한 팬레터를 작성해주세요!
+        </InputBox>
+      )}
+
+      <LetterList />
+    </StContainer>
+  );
+}
 
 const StContainer = styled.div`
   width: 100%;
@@ -31,42 +53,5 @@ const InputBox = styled.div`
     background-color: #eee;
   }
 `;
-
-function Letter({ letterList, setLetterList }) {
-  const [selectedMember, setSelectedMember] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleModal = () => {
-    setModalOpen(true);
-  };
-
-  return (
-    <StContainer>
-      <Tabs
-        selectedMember={selectedMember}
-        setSelectedMember={setSelectedMember}
-      />
-
-      {modalOpen ? (
-        <LetterForm
-          letterList={letterList}
-          setLetterList={setLetterList}
-          setModalOpen={setModalOpen}
-          setSelectedMember={setSelectedMember}
-        />
-      ) : (
-        <InputBox onClick={handleModal}>
-          아티스트를 위한 팬레터를 작성해주세요!
-        </InputBox>
-      )}
-
-      <LetterList
-        letterList={letterList}
-        selectedMember={selectedMember}
-        setLetterList={setLetterList}
-      />
-    </StContainer>
-  );
-}
 
 export default Letter;

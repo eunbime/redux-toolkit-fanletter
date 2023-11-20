@@ -41,7 +41,6 @@ const LetterCard = ({ letter }) => {
 const LetterWrapper = styled.ul`
   max-width: 650px;
   padding: 1rem;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -84,7 +83,6 @@ const StContent = styled.li`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
   padding: 0.5rem;
   border-radius: 0.5rem;
   background-color: rgba(0, 0, 0, 0.1);

@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import LetterCard from "./LetterCard";
+import { LetterContext } from "context/LetterContext";
+import { MemberContext } from "context/MemberContext";
 
-const LetterList = ({
-  letterList,
-  selectedMember,
-  setLetterList,
-  setContent,
-}) => {
+const LetterList = () => {
+  const { letterList, setLetterList } = useContext(LetterContext);
+  const { selectedMember } = useContext(MemberContext);
   const location = useLocation();
   const filteredLetters = location.state;
 
@@ -35,7 +34,7 @@ const LetterList = ({
 };
 
 const StList = styled.div`
-  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;

@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { data } from "../shared/data";
 import uuid from "react-uuid";
+import { LetterContext } from "context/LetterContext";
+import { MemberContext } from "context/MemberContext";
 
 let today = new Date();
 
-const LetterForm = ({
-  letterList,
-  setLetterList,
-  setModalOpen,
-  setSelectedMember,
-}) => {
+const LetterForm = ({ setModalOpen }) => {
+  const { setLetterList } = useContext(LetterContext);
+  const { setSelectedMember } = useContext(MemberContext);
+
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [member, setMember] = useState("카리나");

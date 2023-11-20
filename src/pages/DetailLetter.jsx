@@ -1,10 +1,12 @@
 import Avatar from "components/common/Avatar";
-import React, { useState } from "react";
+import { LetterContext } from "context/LetterContext";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getFormattedDate } from "util/data";
 
-const DetailLetter = ({ letterList }) => {
+const DetailLetter = () => {
+  const { letterList } = useContext(LetterContext);
   const navigate = useNavigate();
   const { id } = useParams();
   const { nickname, avatar, member, createdAt, memberPhoto, content } =
