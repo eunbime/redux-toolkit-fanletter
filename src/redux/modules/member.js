@@ -1,6 +1,6 @@
 const SET_MEMBER = "member/SET_MEMBER";
 
-export const setMember = (payload) => {
+export const setSelectedMember = (payload) => {
   return { type: SET_MEMBER, payload };
 };
 

@@ -1,57 +1,42 @@
 import Avatar from "components/common/Avatar";
-import { LetterContext } from "context/LetterContext";
-import React, { useContext, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getFormattedDate } from "util/data";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteLetter, editLetter } from "redux/modules/letters";
 
 const DetailLetter = () => {
-  const { letterList } = useContext(LetterContext);
+  const letterList = useSelector((state) => state.letters);
+  const dispatch = useDispatch();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingText, setEditingText] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
   const { nickname, avatar, member, createdAt, memberPhoto, content } =
     letterList.find((letter) => letter.id === id);
 
-  const [edit, setEdit] = useState(false);
-  const [editContent, setEditContent] = useState("");
-  const [editedContent, setEditedContent] = useState(content);
-  const [editedList, setEditedList] = useState(letterList);
-
   const handleDelete = (id) => {
-    if (window.confirm("정말 삭제하시겠습니까?")) {
-      const filteredList = letterList.filter((letter) => letter.id !== id);
-      setEditedContent(filteredList);
-      navigate("/letter", {
-        state: [...filteredList],
-      });
-    }
-  };
+    const answer = window.confirm("정말로 삭제하시겠습니까?");
+    if (!answer) return; // 취소 시
 
-  const handleEdit = () => {
-    setEditContent(editedContent);
-    setEdit(true);
+    dispatch(deleteLetter(id));
+    navigate("/letter");
   };
 
   const handleSubmit = (id) => {
-    if (!editContent) return alert("수정사항이 없습니다.");
+    if (!editingText) return alert("수정사항이 없습니다.");
 
-    if (window.confirm("정말 수정하시겠습니까?")) {
-      const newEditedList = letterList.map((item) => {
-        return item.id === id ? { ...item, content: editContent } : item;
-      });
-      setEditedList(newEditedList);
-      setEditedContent(editContent);
-      setEdit(false);
-      setEditContent("");
-    } else {
-      setEdit(false);
-    }
+    const answer = window.confirm("정말로 수정하시겠습니까?");
+    if (!answer) return;
+
+    dispatch(editLetter({ id, editingText }));
+    setIsEditing(false);
+    setEditingText("");
   };
 
   const goBackHandler = () => {
-    navigate("/letter", {
-      state: [...editedList],
-    });
+    navigate("/letter");
   };
 
   return (
@@ -83,37 +68,38 @@ const DetailLetter = () => {
           </li>
         </ProFileContainer>
         <li>{getFormattedDate(createdAt)}</li>
-        {edit ? (
-          <textarea
-            name=""
-            id=""
-            cols="30"
-            rows="10"
-            autoFocus
-            defaultValue={content}
-            maxLength="150"
-            onChange={(e) => setEditContent(e.target.value)}
-          />
-        ) : (
-          <StContent>{editedContent}</StContent>
-        )}
-        <ButtonSection>
-          {edit ? (
-            <>
-              <StButton onClick={() => setEdit(false)}>취소</StButton>
+        {isEditing ? (
+          <>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="10"
+              autoFocus
+              defaultValue={content}
+              maxLength="150"
+              onChange={(e) => setEditingText(e.target.value)}
+            />
+            <ButtonSection>
+              <StButton onClick={() => setIsEditing(false)}>취소</StButton>
               <StButton onClick={() => handleSubmit(id)}>완료</StButton>
-            </>
-          ) : (
-            <>
-              <StButton onClick={handleEdit}>수정</StButton>
+            </ButtonSection>
+          </>
+        ) : (
+          <>
+            <StContent>{content}</StContent>
+            <ButtonSection>
+              <StButton onClick={() => setIsEditing(true)}>수정</StButton>
               <StButton onClick={() => handleDelete(id)}>삭제</StButton>
-            </>
-          )}
-        </ButtonSection>
+            </ButtonSection>
+          </>
+        )}
       </LetterBox>
     </Container>
   );
 };
+
+export default DetailLetter;
 
 const Container = styled.div`
   width: 100%;
@@ -193,5 +179,3 @@ const StContent = styled.li`
   white-space: pre-line;
   line-height: 1.5;
 `;
-
-export default DetailLetter;

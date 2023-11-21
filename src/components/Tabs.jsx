@@ -2,17 +2,16 @@ import React from "react";
 import { data } from "shared/data";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { setMember } from "redux/modules/member";
+import { setSelectedMember } from "redux/modules/member";
 
 const Tabs = () => {
   const selectedMember = useSelector((state) => state.member);
-  // const { selectedMember, setSelectedMember } = useContext(MemberContext);
+  console.log(selectedMember);
 
   const dispatch = useDispatch();
 
-  const selectMemberHandler = (selectedMember) => {
-    // setSelectedMember(selectedMember);
-    dispatch(setMember(selectedMember));
+  const selectMemberHandler = (member) => {
+    dispatch(setSelectedMember(member));
   };
   return (
     <StButtonSection>
@@ -30,7 +29,7 @@ const Tabs = () => {
               style={{ objectFit: "cover" }}
             />
           </StBox>
-          <span>{item.member}</span>
+          {item.member}
         </StFilterMember>
       ))}
     </StButtonSection>

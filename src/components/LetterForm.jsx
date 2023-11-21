@@ -2,14 +2,12 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { data } from "../shared/data";
 import uuid from "react-uuid";
-import { LetterContext } from "context/LetterContext";
-import { MemberContext } from "context/MemberContext";
-
-let today = new Date();
+import { useDispatch } from "react-redux";
+import { addLetter } from "redux/modules/letters";
+import { setSelectedMember } from "redux/modules/member";
 
 const LetterForm = ({ setModalOpen }) => {
-  const { setLetterList } = useContext(LetterContext);
-  const { setSelectedMember } = useContext(MemberContext);
+  const dispatch = useDispatch();
 
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
@@ -43,10 +41,12 @@ const LetterForm = ({ setModalOpen }) => {
       createdAt: new Date(),
       avatar: null,
     };
-    setLetterList((prev) => [newLetter, ...prev]);
+
+    dispatch(addLetter(newLetter));
+    // setLetterList((prev) => [newLetter, ...prev]);
     setNickname("");
     setContent("");
-    setSelectedMember(member);
+    dispatch(setSelectedMember(member));
     setModalOpen(false);
   };
 

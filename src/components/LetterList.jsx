@@ -1,23 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 import LetterCard from "./LetterCard";
-import { LetterContext } from "context/LetterContext";
-import { MemberContext } from "context/MemberContext";
+import { useSelector } from "react-redux";
 
 const LetterList = () => {
-  const { letterList, setLetterList } = useContext(LetterContext);
-  const { selectedMember } = useContext(MemberContext);
-  const location = useLocation();
-  const filteredLetters = location.state;
+  const selectedMember = useSelector((state) => state.member);
+  const letterList = useSelector((state) => state.letters);
 
   const filterdDrawLetters = letterList.filter(
     (item) => item.member === selectedMember || selectedMember === ""
   );
-
-  useEffect(() => {
-    if (filteredLetters) setLetterList(filteredLetters);
-  }, [filteredLetters]);
 
   return (
     <StList>
@@ -27,7 +19,9 @@ const LetterList = () => {
           팬레터를 남겨보세요
         </p>
       ) : (
-        filterdDrawLetters.map((item) => <LetterCard letter={item} />)
+        filterdDrawLetters.map((item) => (
+          <LetterCard key={item.id} letter={item} />
+        ))
       )}
     </StList>
   );

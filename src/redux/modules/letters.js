@@ -27,10 +27,10 @@ const letters = (state = initialState, action) => {
       const letterId = action.payload;
       return state.filter((letter) => letter.id !== letterId);
     case EDIT_LETTER:
-      const { id, editContent } = action.payload;
+      const { id, editingText } = action.payload;
       return state.map((letter) => {
         if (letter.id === id) {
-          return { ...letter, content: editContent };
+          return { ...letter, content: editingText };
         }
         return letter;
       });
