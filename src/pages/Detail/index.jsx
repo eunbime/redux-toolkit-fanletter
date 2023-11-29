@@ -2,7 +2,7 @@ import Avatar from "components/common/Avatar";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getFormattedDate } from "util/data";
+import { getFormattedDate } from "util/date";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteLetter, editLetter } from "redux/modules/letters";
 

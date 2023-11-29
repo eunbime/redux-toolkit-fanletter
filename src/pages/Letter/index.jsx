@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import LetterForm from "../components/LetterForm";
-import LetterList from "../components/LetterList";
+import LetterForm from "../../components/LetterForm";
+import LetterList from "../../components/LetterList";
 import styled from "styled-components";
 import Tabs from "components/Tabs";
 

@@ -4,7 +4,7 @@ import { data } from "../shared/data";
 import uuid from "react-uuid";
 import { useDispatch } from "react-redux";
 import { addLetter } from "redux/modules/letters";
-import { setSelectedMember } from "redux/modules/member";
+import { selectMember } from "redux/modules/member";
 
 const LetterForm = ({ setModalOpen }) => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const LetterForm = ({ setModalOpen }) => {
     // setLetterList((prev) => [newLetter, ...prev]);
     setNickname("");
     setContent("");
-    dispatch(setSelectedMember(member));
+    dispatch(selectMember(member));
     setModalOpen(false);
   };
 

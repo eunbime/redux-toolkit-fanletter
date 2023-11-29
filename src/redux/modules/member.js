@@ -1,16 +1,16 @@
-const SET_MEMBER = "member/SET_MEMBER";
+const SELECT_MEMBER = "member/SELECT_MEMBER";
 
-export const setSelectedMember = (payload) => {
-  return { type: SET_MEMBER, payload };
+export const selectMember = (payload) => {
+  return { type: SELECT_MEMBER, payload };
 };
 
-const initialState = "카리나";
+const initialState = "";
 
 const member = (state = initialState, action) => {
-  switch (action.payload) {
-    case SET_MEMBER:
-      const selectedMember = action.payload;
-      return selectedMember;
+  switch (action.type) {
+    case SELECT_MEMBER:
+      const activeMember = action.payload;
+      return activeMember;
     default:
       return state;
   }

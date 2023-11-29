@@ -4,18 +4,18 @@ import LetterCard from "./LetterCard";
 import { useSelector } from "react-redux";
 
 const LetterList = () => {
-  const selectedMember = useSelector((state) => state.member);
+  const activeMember = useSelector((state) => state.member);
   const letterList = useSelector((state) => state.letters);
 
   const filterdDrawLetters = letterList.filter(
-    (item) => item.member === selectedMember || selectedMember === ""
+    (item) => item.member === activeMember || activeMember === ""
   );
 
   return (
     <StList>
       {filterdDrawLetters.length === 0 ? (
         <p>
-          {selectedMember}에게 남겨진 팬레터가 없습니다. <br />
+          {activeMember}에게 남겨진 팬레터가 없습니다. <br />
           팬레터를 남겨보세요
         </p>
       ) : (

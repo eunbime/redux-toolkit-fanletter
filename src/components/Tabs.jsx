@@ -1,41 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { data } from "shared/data";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedMember } from "redux/modules/member";
+import { selectMember } from "redux/modules/member";
+import userEvent from "@testing-library/user-event";
 
 const Tabs = () => {
-  // 상태 가져오기
-  const selectedMember = useSelector((state) => state.member);
-  console.log(selectedMember);
-  console.log(useSelector((state) => state));
-
-  // 상태 변경하기
   const dispatch = useDispatch();
+  const activeMember = useSelector((state) => state.member);
 
   const selectMemberHandler = (member) => {
-    dispatch(setSelectedMember(member));
+    dispatch(selectMember(member));
   };
 
   return (
     <StButtonSection>
-      {data.map((item) => (
-        <StFilterMember
-          key={item.id}
-          onClick={() => selectMemberHandler(item.member)}
-          $selected={selectedMember === item.member}
-        >
-          <StBox $selected={selectedMember === item.member}>
-            <img
-              src={item.memberPhoto}
-              alt=""
-              width="120rem"
-              style={{ objectFit: "cover" }}
-            />
-          </StBox>
-          {item.member}
-        </StFilterMember>
-      ))}
+      {data.map((item) => {
+        console.log(activeMember);
+        console.log(item.member);
+        return (
+          <StFilterMember
+            key={item.id}
+            onClick={() => selectMemberHandler(item.member)}
+            $activeMember={activeMember}
+          >
+            <StBox $activeMember={activeMember}>
+              <img
+                src={item.memberPhoto}
+                alt=""
+                width="120rem"
+                style={{ objectFit: "cover" }}
+              />
+            </StBox>
+            {item.member}
+          </StFilterMember>
+        );
+      })}
     </StButtonSection>
   );
 };

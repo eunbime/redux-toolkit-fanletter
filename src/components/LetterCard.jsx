@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getFormattedDate } from "util/data";
+import { getFormattedDate } from "util/date";
 import Avatar from "./common/Avatar";
 
 const defaultUser =
