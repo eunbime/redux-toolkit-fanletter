@@ -5,23 +5,27 @@ import { useSelector, useDispatch } from "react-redux";
 import { setSelectedMember } from "redux/modules/member";
 
 const Tabs = () => {
+  // 상태 가져오기
   const selectedMember = useSelector((state) => state.member);
   console.log(selectedMember);
+  console.log(useSelector((state) => state));
 
+  // 상태 변경하기
   const dispatch = useDispatch();
 
   const selectMemberHandler = (member) => {
     dispatch(setSelectedMember(member));
   };
+
   return (
     <StButtonSection>
       {data.map((item) => (
         <StFilterMember
           key={item.id}
           onClick={() => selectMemberHandler(item.member)}
-          selected={selectedMember === item.member}
+          $selected={selectedMember === item.member}
         >
-          <StBox selected={selectedMember === item.member}>
+          <StBox $selected={selectedMember === item.member}>
             <img
               src={item.memberPhoto}
               alt=""

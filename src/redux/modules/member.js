@@ -4,7 +4,7 @@ export const setSelectedMember = (payload) => {
   return { type: SET_MEMBER, payload };
 };
 
-const initialState = "";
+const initialState = "카리나";
 
 const member = (state = initialState, action) => {
   switch (action.payload) {
